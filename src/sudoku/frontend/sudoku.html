@@ -23,12 +23,38 @@ tbody {
 .hidden{
   display: none; 
 }
+
+.button{
+  margin-top: 50px; 
+  border-radius: 5px; 
+  border-style: solid;
+  border-width: 1px;
+  border-color: transparent; 
+  width: 150px; 
+  height: 50x; 
+}
+
+.solve{
+  background-color: green; 
+  color: white; 
+}
+
+.edit{
+  background-color: orange; 
+  color: white; 
+}
+
 .even {
   background-color: rgba(118, 230, 127, 0.5);
 }
 .even input {
   background-color: inherit;
 }
+.sudoku{
+  margin-top: 100px; 
+}
+
+
 input {
   border: none;
 }
@@ -43,8 +69,8 @@ input {
   </head>
   <body>
     <div class="container">
-      <div class="row">
-        <div class="col-8 offset-2 justify-content-center align-content-center">
+      <div class="row justify-content-center sudoku">
+        <div class="col-auto">
           <table id="sudoku">
             <colgroup><col><col><col>
             <colgroup><col><col><col>
@@ -52,118 +78,138 @@ input {
             <tbody>
               <tr>
                 <td class="cell  given text-center">1</td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell  given text-center">3</td>
               </tr>
               <tr>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell even    given text-center">6</td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
               </tr>
               <tr>
 
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell  given text-center">3</td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell  given text-center">1</td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
               </tr>
             </tbody>
               <tbody>
               <tr>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell  given text-center">7</td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell  given text-center">1</td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
               </tr>
               <tr>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell even   given   text-center">8</td>
-                <td class="cell even  input text-center  "><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input text-center  "><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell even  input text-center  "><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input text-center  "><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell  given text-center">5</td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
               </tr>
               <tr>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell  given text-center">3</td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell even     given text-center">4</td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
               </tr>
             </tbody>
             <tbody>
               <tr>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell even     given text-center">8</td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell even     given text-center">6</td>
-                <td class="cell input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input  text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
               </tr>
               <tr>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell  given text-center">1</td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
               </tr>
               <tr>
                 <td class="cell even     given text-center">6</td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
-                <td  class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ><span value="2" class="hidden">3</span></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell even  input   text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
+                <td  class="cell input text-center"><input type="number" max="9" min="1" maxlength="1" minlength="1" ></td>
                 <td class="cell  given text-center">7</td>
               </tr>
             </tbody>
           </table>
+          <div class="row">
+            <div class="col-6 text-center">
+              <button id="editbutton" class="button edit">Bearbeiten</button>
+            </div>
+            <div class="col-6 text-center">
+              <button id="solvebutton" onclick="" class="button solve">Lösen</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </body>
   <script>
     let values = document.getElementsByTagName('input');
-    console.log(values)
-    let a = document.get
+    let cells = document.getElementsByClassName('cell'); 
+    
+    let matrix = []
+    for(let i = 0; i<9; i++){
+      matrix[i] = []
+      for(let j= 0; j<9; j++){
+        if(isNaN(parseInt(cells[i*9+j].textContent))){
+          matrix[i].push(0)
+          continue;
+        }
+        matrix[i].push(parseInt(cells[i*9+j].textContent))
+      }
+    }
+    console.log(matrix)
     for(let i = 0; i<values.length; i++){
     values[i].oninput = (value)=>{
       if(value.isTrusted){
@@ -182,8 +228,7 @@ input {
         }
       }
       }
-          
-
+        
     }
   }
 
