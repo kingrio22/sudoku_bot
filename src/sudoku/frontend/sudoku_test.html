@@ -63,6 +63,10 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: orange; 
   color: white; 
 }
+.leave{
+  background-color:green; 
+  color: white; 
+}
 
 .even {
   background-color: rgba(118, 230, 127, 0.5);
@@ -204,11 +208,16 @@ input {
           </table>
          
           <div class="row">
-            <div class="col-6 text-center">
+            <div class="col-auto text-center">
               <button id="editbutton" class="button edit">Bearbeiten</button>
             </div>
-            <div class="col-6 text-center">
-              <button id="solvebutton" onclick="" class="button solve">Lösen</button>
+            <div class="col-auto text-center">
+              <button id="solvebutton" class="button solve">Lösen</button>
+            </div>
+          </div>
+            <div class="row justify-content-center">
+            <div class="col-auto text-center">
+              <button id="leavebutton" class="button leave" style="display: none;">Bearbeiten beenden</button>
             </div>
           </div>
           <div class="row ">
@@ -221,6 +230,56 @@ input {
     </div>
   </body>
   <script>
+
+    document.querySelector('#editbutton').addEventListener('click', editMode);
+    document.querySelector('#leavebutton').addEventListener('click', leaveEdit);
+
+    function editMode(){
+
+     let buttons = document.getElementsByTagName('button'); 
+     for(const button of buttons){
+       if(button.style.display === 'none'){
+         button.style.display = 'block'; 
+       }else{
+         button.style.display = 'none'
+       }
+     }
+
+
+
+      let cells = document.getElementsByClassName('cell'); 
+
+      for(const cell of cells){
+        cell.classList.remove('given', 'even', 'input')
+        console.log(cell)
+        cell.firstChild.remove(); 
+        let inputElem = document.createElement('input'); 
+        cell.appendChild(inputElem); 
+
+        cell.firstChild.onInput = (eve) => {
+          if(eve.isTrusted){
+
+          }
+        }
+      }
+  }
+
+  function leaveEdit(){
+    let buttons = document.getElementsByTagName('button'); 
+     for(const button of buttons){
+       if(button.style.display === 'none'){
+         button.style.display = 'block'; 
+       }else{
+         button.style.display = 'none'
+       }
+     }
+    edit = false; 
+  }
+
+
+
+
+
     let values = document.getElementsByTagName('input');
     for(let i = 0; i<values.length; i++){
       values[i].oninput = (value)=>{
@@ -239,6 +298,8 @@ input {
       }
     }
   }
+
+
        
       
   let cells = document.getElementsByClassName('cell'); 
@@ -354,6 +415,7 @@ input {
               matrix[i].push(parseInt(value))
             }
           }
+         
           console.log(counter); 
           let response = {
             matrix: matrix, 
@@ -361,9 +423,6 @@ input {
           }
           return response; 
     }
-  
-
- 
 
   </script>
 </html>

@@ -6,6 +6,8 @@ import {
   HttpException,
   HttpStatus,
   Render,
+  Post,
+  Body,
 } from '@nestjs/common';
 
 @Controller('sudoku')
@@ -36,5 +38,9 @@ export class SudokuController {
       console.log(err);
       throw new HttpException(err.toString(), HttpStatus.BAD_REQUEST);
     }
+  }
+  @Post('/')
+  public async saveSudoku(@Body() body: any): Promise<void> {
+    console.log(body);
   }
 }
