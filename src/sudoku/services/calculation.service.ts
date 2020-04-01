@@ -1,112 +1,11 @@
+import * as fs from 'fs';
 import { Injectable } from '@nestjs/common';
-
 @Injectable()
 export class CalculationService {
-  public async solveSudoku(matrixx: number[][]): Promise<any[][]> {
-    let fs = require('fs');
+  public async solveSudoku(matrixx: any): Promise<any[][]> {
     let x = 0;
     let y = 0;
-    let matrix = [
-      [
-        { value: 1, even: false },
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 0, even: true },
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 3, even: false },
-      ],
-      [
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 0, even: false },
-        { value: 6, even: true },
-        { value: 0, even: true },
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 0, even: true },
-      ],
-      [
-        { value: 0, even: true },
-        { value: 0, even: true },
-        { value: 3, even: false },
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 1, even: false },
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 0, even: true },
-      ],
-      [
-        { value: 0, even: true },
-        { value: 7, even: false },
-        { value: 0, even: false },
-        { value: 1, even: false },
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 0, even: true },
-        { value: 0, even: false },
-        { value: 0, even: true },
-      ],
-      [
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 8, even: true },
-        { value: 0, even: true },
-        { value: 0, even: true },
-        { value: 0, even: false },
-        { value: 5, even: false },
-        { value: 0, even: false },
-        { value: 0, even: false },
-      ],
-      [
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 3, even: false },
-        { value: 0, even: true },
-        { value: 4, even: true },
-        { value: 0, even: false },
-      ],
-      [
-        { value: 0, even: true },
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 8, even: true },
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 6, even: true },
-        { value: 0, even: false },
-        { value: 0, even: true },
-      ],
-      [
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 0, even: true },
-        { value: 1, even: false },
-        { value: 0, even: true },
-        { value: 0, even: true },
-        { value: 0, even: true },
-        { value: 0, even: false },
-      ],
-      [
-        { value: 6, even: true },
-        { value: 0, even: true },
-        { value: 0, even: true },
-        { value: 0, even: true },
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 0, even: false },
-        { value: 7, even: false },
-      ],
-    ];
+    let matrix = matrixx;
 
     let columns = [];
     let nulls = 0;

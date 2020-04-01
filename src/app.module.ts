@@ -1,4 +1,6 @@
 import { AppService } from './app.service';
+import { Cell } from './cell/entities/cell.entity';
+import { CellModule } from './cell/cell.module';
 import { Module } from '@nestjs/common';
 import { Sudoku } from './sudoku/entities/sudoku.entity';
 import { SudokuModule } from './sudoku/sudoku.module';
@@ -15,7 +17,7 @@ import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
           username: 'max',
           password: 'root',
           database: 'sudoku',
-          entities: [Sudoku],
+          entities: [Sudoku, Cell],
           synchronize: true,
           migrationsRun: false,
           logging: true,
@@ -28,6 +30,7 @@ import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
         } as TypeOrmModuleAsyncOptions),
     }),
     SudokuModule,
+    CellModule,
   ],
   providers: [AppService],
 })

@@ -1,3 +1,4 @@
+import { CalculationService } from './services/calculation.service';
 import { Module } from '@nestjs/common';
 import { Sudoku } from './entities/sudoku.entity';
 import { SudokuController } from './controllers/sudoku.controller';
@@ -7,6 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [TypeOrmModule.forFeature([Sudoku])],
   controllers: [SudokuController],
-  providers: [SudokuService],
+  providers: [SudokuService, CalculationService],
 })
 export class SudokuModule {}

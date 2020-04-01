@@ -232,6 +232,7 @@ input {
   <script>
 document.querySelector('#editbutton').addEventListener('click', editMode);
 document.querySelector('#leavebutton').addEventListener('click', leaveEdit);
+document.querySelector('#solvebutton').addEventListener('click', solveSudoku);
 
 function editMode() {
   console.log('in edit mode');
@@ -247,15 +248,61 @@ function editMode() {
 
   for (const cell of cells) {
     cell.classList.remove('given', 'even', 'input');
-    console.log(cell);
     cell.firstChild.remove();
     let inputElem = document.createElement('input');
     inputElem.type ="number"
 
     cell.appendChild(inputElem);
-    console.log(cell);
   }
 }
+
+function solveSudoku(){
+  let cells = document.getElementsByClassName('cell'); 
+  let matrix = []; 
+   for (let i = 0; i < 9; i++) {
+    matrix[i] = [];
+    for (let j = 0; j < 9; j++) {
+      let cell = cells[i * 9 + j];
+      let given = false; 
+      for(classList of cell.classList){
+          if(classList === 'given'){
+            given = true; 
+          }
+        }
+      if (cell.firstChild.value != '' && given) {
+        matrix[i][j] = {
+          value: parseInt(cell.firstChild.textContent),
+          classList: cell.classList
+        };
+      } else {
+        matrix[i][j] = {
+          value: 0,
+          classList: cell.classList
+        };
+      }
+    }
+  }
+  let request = new XMLHttpRequest(); 
+  let matrixForFill = undefined; 
+  request.open('POST', 'http://localhost:2102/sudoku/solve', true); 
+  request.setRequestHeader('content-type', 'application/json'); 
+  request.send(JSON.stringify(matrix))
+  request.onreadystatechange = ()=>{
+    if(request.readyState === 4 && request.status === 201){
+console.log(request.response)
+    let response = JSON.parse(request.response); 
+    matrixForFill = response.result; 
+     console.log(matrixForFill); 
+     for(let i=0; i<cells.length; i++){
+       cells[i].textContent = matrixForFill[i].toString(); 
+     }
+  }
+    }
+    
+}
+
+
+
 
 function leaveEdit() {
   let buttons = document.getElementsByTagName('button');
@@ -294,9 +341,8 @@ function leaveEdit() {
   }
 
  let request = new XMLHttpRequest(); 
- request.open('POST', 'http://localhost:2102/sudoku', true ); 
+ request.open('POST', 'http://localhost:2102/sudoku/save', true ); 
  request.setRequestHeader('content-type', 'application/json')
- console.log(matrix); 
  request.send(JSON.stringify(matrix)); 
 
 }
@@ -305,13 +351,15 @@ let values = document.getElementsByTagName('input');
 for (let i = 0; i < values.length; i++) {
   values[i].oninput = value => {
     if (value.isTrusted) {
+      console.log('on input'); 
+      console.log(values[i])
       if (values[i].value == '') {
         values[i].classList.remove('mistake');
       } else {
         if (
           (values[i].parentElement.classList[1] === 'even' &&
             values[i].value % 2 != 0) ||
-          values[i].value > 9
+          (values[i].value > 9)
         ) {
           values[i].classList.add('mistake');
         } else {
@@ -325,10 +373,22 @@ for (let i = 0; i < values.length; i++) {
 let cells = document.getElementsByClassName('cell');
 
 for (let i = 0; i < cells.length; i++) {
-  cells[i].onchange = eve => {
+  cells[i].onchange = event => {
+   
+
     let response = fillNewMatrix();
     let position = undefined;
-    if (eve.isTrusted) {
+          let errorElem = document.getElementById('showError');
+    if (event.isTrusted) {
+       if(isNaN(parseInt(cells[i].firstChild.value))){
+         errorElem.style.display = 'none';
+        for (const value of values) {
+          value.disabled = false;
+          value.classList.remove('disabledInput');
+          value.parentElement.classList.remove('disabledInput');
+        }
+      return; 
+    }
       let duplicateInput = false;
       let neededCol = extractColFromMatrix(
         response.matrix,
@@ -351,8 +411,14 @@ for (let i = 0; i < cells.length; i++) {
         duplicateInput = true;
         position = 'square';
       }
+      console.log()
+      if((parseInt(cells[i].firstChild.value) > 9) || (parseInt(cells[i].firstChild.value) < 1)){
+        duplicateInput = true; 
+        position = 'number out of range'
+      }
 
-      let errorElem = document.getElementById('showError');
+
+
       if (duplicateInput) {
         errorElem.textContent = `Last input results in ${position} error`;
         errorElem.style.display = 'block';
