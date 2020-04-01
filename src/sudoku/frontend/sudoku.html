@@ -23,6 +23,23 @@ tbody {
 .hidden{
   display: none; 
 }
+input{
+  text-align: center;
+  height: 100%; 
+  width: 100%; 
+  margin: 0; 
+  padding: 0; 
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+  padding: 0; 
+}
+.disabledInput{
+  background-color: rgba(128, 128, 128, 0.226) !important;
+}
 
 .button{
   margin-top: 50px; 
@@ -32,6 +49,9 @@ tbody {
   border-color: transparent; 
   width: 150px; 
   height: 50x; 
+}
+#showError{
+  display: none; 
 }
 
 .solve{
@@ -48,7 +68,7 @@ tbody {
   background-color: rgba(118, 230, 127, 0.5);
 }
 .even input {
-  background-color: inherit;
+  background-color: rgba(118, 230, 127, 0.2);;
 }
 .sudoku{
   margin-top: 100px; 
@@ -182,6 +202,7 @@ input {
               </tr>
             </tbody>
           </table>
+         
           <div class="row">
             <div class="col-6 text-center">
               <button id="editbutton" class="button edit">Bearbeiten</button>
@@ -190,37 +211,25 @@ input {
               <button id="solvebutton" onclick="" class="button solve">Lösen</button>
             </div>
           </div>
+          <div class="row ">
+            <div class="col text-center" style="margin-top: 10px; color:red; font-size: large;">
+              <p id="showError"></p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </body>
   <script>
     let values = document.getElementsByTagName('input');
-    let cells = document.getElementsByClassName('cell'); 
-    
-    let matrix = []
-    for(let i = 0; i<9; i++){
-      matrix[i] = []
-      for(let j= 0; j<9; j++){
-        if(isNaN(parseInt(cells[i*9+j].textContent))){
-          matrix[i].push(0)
-          continue;
-        }
-        matrix[i].push(parseInt(cells[i*9+j].textContent))
-      }
-    }
-    console.log(matrix)
     for(let i = 0; i<values.length; i++){
-    values[i].oninput = (value)=>{
-      if(value.isTrusted){
-
-        console.log(values[i].parentElement.classList)
-
+      values[i].oninput = (value)=>{
+        if(value.isTrusted){
 
         if(values[i].value == ""){
           values[i].classList.remove('mistake'); 
         }else{
-        if(values[i].parentElement.classList[1]==="even" && (values[i].value %2 !=0)){
+        if((values[i].parentElement.classList[1]==="even" && (values[i].value %2 !=0)) || values[i].value>9 ){
           
           values[i].classList.add('mistake'); 
         }else{
@@ -228,9 +237,133 @@ input {
         }
       }
       }
-        
     }
   }
+       
+      
+  let cells = document.getElementsByClassName('cell'); 
+
+          for(let i = 0; i<cells.length; i++){
+            cells[i].onchange = (eve)=>{
+              let response = fillNewMatrix(); 
+              let position = undefined; 
+              if(eve.isTrusted){
+                let duplicateInput = false
+                let neededCol = extractColFromMatrix(response.matrix, response.changedCell.col)
+                if(hasDuplicates(response.matrix[response.changedCell.row])){
+                  position = 'row'; 
+                  duplicateInput = true; 
+                }else if(hasDuplicates(neededCol)){
+                  duplicateInput = true; 
+                  position = 'col'; 
+                }else if(checkNumbersInMiniSquare(response.matrix[response.changedCell.row][response.changedCell.col],response.changedCell.row, response.changedCell.col, response.matrix)){
+                  duplicateInput = true; 
+                  position = 'square'; 
+                }
+              
+                let errorElem = document.getElementById('showError'); 
+               if(duplicateInput){
+                 errorElem.textContent = `Last input results in ${position} error`
+                 errorElem.style.display = 'block'; 
+                
+                 for(const value of values){
+                   value.disabled = true; 
+                   value.classList.add('disabledInput'); 
+                   value.parentElement.classList.add('disabledInput')
+                 }
+                 cells[i].classList.remove('disabledInput')
+                 cells[i].firstChild.classList.remove('disabledInput')
+                 cells[i].firstChild.disabled = false
+               }else{
+                errorElem.style.display = 'none'; 
+                for(const value of values){
+                   value.disabled = false; 
+                   value.classList.remove('disabledInput'); 
+                   value.parentElement.classList.remove('disabledInput')
+                 }
+               }
+              }
+            }
+          }
+    
+      function hasDuplicates(array) {
+      for(let i = 0; i<array.length; i++){
+        for(let j = 0; j<array.length; j++){
+          if(array[i] != "" && array[j] != "" && i!=j){
+            if(array[i] === array[j]){
+              return true; 
+            }
+          }
+        }
+      }
+      return false; 
+    }
+    function extractColFromMatrix(matrix, col){
+      let extractedCol = []
+      for(let i = 0; i<9; i++){
+        extractedCol.push(matrix[i][col]); 
+      }
+      console.log(extractedCol); 
+      return extractedCol; 
+    }
+
+    function checkNumbersInMiniSquare(numberToCheck, x, y, matrix) {
+      for (let i = x - (x % 3); i < x - (x % 3) + 3; i++) {
+        for (let j = y - (y % 3); j < y - (y % 3) + 3; j++) {
+          if(i===x && y===j){
+            continue
+          }
+          if (matrix[i][j] != "") {
+            if (matrix[i][j] === numberToCheck) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    function fillNewMatrix(){
+      let counter =0; 
+      let matrix = []; 
+      let changedCell = {
+        row: undefined, 
+        col: undefined
+      }
+      let cells = document.getElementsByClassName('cell'); 
+        for(let i = 0; i<9; i++){
+          matrix[i] = []
+            for(let j= 0; j<9; j++){
+              let value; 
+              if(cells[i*9+j].firstElementChild){
+                counter++; 
+                value = parseInt(cells[i*9+j].firstChild.value); 
+                if(!isNaN(value)){
+                  console.log("in if", value); 
+                  changedCell.row = i;
+                  changedCell.col = j;  
+                }
+              }else{
+                value = cells[i*9+j].textContent
+              }
+              if(isNaN(parseInt(value))){
+                matrix[i].push('')
+                continue;
+              }
+              
+              matrix[i].push(parseInt(value))
+            }
+          }
+          console.log(counter); 
+          let response = {
+            matrix: matrix, 
+            changedCell: changedCell
+          }
+          return response; 
+    }
+  
+
+ 
 
   </script>
 </html>
