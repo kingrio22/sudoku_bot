@@ -1,0 +1,23 @@
+version: '2'
+services:
+  sudoku_app:
+    image: sudoku-app-image
+    container_name: sudoku-app
+    build: .
+    ports:
+      - '3333:3000'
+    depends_on:
+      - sudoku_db
+    links:
+      - sudoku_db
+
+  sudoku_db:
+    image: postgres:10-alpine
+    container_name: sudoku-db
+    restart: always
+    ports:
+      - '127.0.0.1:5444:5432'
+    environment:
+      POSTGRES_USER: insider2102
+      POSTGRES_PASSWORD: ichhasseingolstadt0604
+      POSTGRES_DB: sudoku-db

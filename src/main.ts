@@ -1,10 +1,12 @@
 import * as chalk from 'chalk';
 import { AppModule } from './app.module';
+import { ConfigService } from './config-service/config-service.service';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
 async function bootstrap() {
-  const port = 2102;
+  const configService = new ConfigService();
+  const port = configService.get('PORT');
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.useStaticAssets(join(__dirname, '..', 'public'));

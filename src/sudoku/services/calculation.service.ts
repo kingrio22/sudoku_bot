@@ -134,10 +134,9 @@ export class CalculationService {
       if (matrix[x][y].even && numberToCheck % 2 != 0) {
         return false;
       }
-
       matrix[x][y].value = numberToCheck;
-
       nulls--;
+      console.log(matrix[x][y].value);
       return true;
     }
     function checkInCol(number, y) {
