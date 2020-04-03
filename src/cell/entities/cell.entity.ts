@@ -1,17 +1,12 @@
-import { Sudoku } from 'src/sudoku/entities/sudoku.entity';
-import {
-  Entity,
-  BaseEntity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinTable,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Cell extends BaseEntity {
+export class Cell {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
+
+  @Column()
+  value: number;
 
   @Column()
   x: number;
@@ -24,12 +19,4 @@ export class Cell extends BaseEntity {
 
   @Column()
   isGiven: boolean;
-
-  @ManyToOne(
-    type => Sudoku,
-    sudoku => sudoku.cell,
-    { cascade: true },
-  )
-  @JoinTable()
-  sudoku: Sudoku;
 }

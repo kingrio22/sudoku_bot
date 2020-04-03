@@ -1,13 +1,15 @@
 import { CalculationService } from './calculation.service';
+import { Cell } from '../../cell/entities/cell.entity';
+import { CellService } from '../../cell/services/cell.service';
 import { Injectable } from '@nestjs/common';
 import { Sudoku } from '../entities/sudoku.entity';
 import { SudokuRepository } from '../repos/sudoku.repository';
-
 @Injectable()
 export class SudokuService {
   public constructor(
     private sudokuRepo: SudokuRepository,
     private calculator: CalculationService,
+    private cellService: CellService,
   ) {}
 
   public async getSudokuById(id: number): Promise<Sudoku> {
@@ -27,7 +29,7 @@ export class SudokuService {
   public async checkSudoku(matrix: any): Promise<void> {
     try {
       console.log(matrix);
-      let result = await this.solveSudoku(matrix);
+      await this.solveSudoku(matrix);
       this.saveNewSudoku(matrix);
       return;
     } catch (err) {
@@ -35,7 +37,27 @@ export class SudokuService {
       throw new Error(err);
     }
   }
-  public saveNewSudoku(matrix: any): void {}
+  public async saveNewSudoku(matrix: any): Promise<void> {
+    let sudoku: Sudoku = { cells: [] };
+
+    for (let i = 0; i < matrix.length; i++) {
+      for (let j = 0; j < matrix[i].length; j++) {
+        let cell = matrix[i][j];
+        let foundCell: Cell | undefined = await this.cellService.getCell(
+          cell,
+          i,
+          j,
+        );
+        if (foundCell) {
+          sudoku.cells.push(foundCell);
+        } else {
+          let newCell: Cell = await this.cellService.saveCell(cell, i, j);
+          sudoku.cells.push(newCell);
+        }
+      }
+    }
+    this.sudokuRepo.save(sudoku);
+  }
 
   public async solveSudoku(matrix: any): Promise<any> {
     let matrixForSolve = [];
