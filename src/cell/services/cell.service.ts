@@ -11,7 +11,6 @@ export class CellService {
     x: number,
     y: number,
   ): Promise<Cell | undefined> {
-    console.log('in get cell', cell);
     let options = {
       where: {
         x: x,
@@ -25,7 +24,6 @@ export class CellService {
   }
 
   public async saveCell(cell: any, x: number, y: number): Promise<Cell> {
-    console.log('in save cell', cell);
     let newCell = {
       x: x,
       y: y,

@@ -1,6 +1,7 @@
 import { CalculationService } from './calculation.service';
 import { Cell } from '../../cell/entities/cell.entity';
 import { CellService } from '../../cell/services/cell.service';
+import { CreateTableService } from './create-table.service';
 import { Injectable } from '@nestjs/common';
 import { Sudoku } from '../entities/sudoku.entity';
 import { SudokuRepository } from '../repos/sudoku.repository';
@@ -10,11 +11,16 @@ export class SudokuService {
     private sudokuRepo: SudokuRepository,
     private calculator: CalculationService,
     private cellService: CellService,
+    private createTableService: CreateTableService,
   ) {}
 
-  public async getSudokuById(id: number): Promise<Sudoku> {
+  public async getSudokuById(id: number): Promise<string> {
     try {
-      return await this.sudokuRepo.findOne({ id: id });
+      let matrix = await this.sudokuRepo.findOne({ id: id });
+      if (!matrix) {
+        return 'src/sudoku/frontend/sudoku.html';
+      }
+      return await this.createTableService.createTable(matrix, id);
     } catch (err) {
       throw new Error(err);
     }

@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import { Sudoku } from '../entities/sudoku.entity';
 import { SudokuService } from '../services/sudoku.service';
 import {
@@ -17,9 +19,13 @@ export class SudokuController {
   public constructor(private sudokuService: SudokuService) {}
 
   @Get('/id/:id')
-  public async getSudokuById(@Param('id') id: number): Promise<Sudoku> {
+  public async getSudokuById(
+    @Res() res,
+    @Param('id') id: number,
+  ): Promise<any> {
     try {
-      return await this.sudokuService.getSudokuById(id);
+      let pathToDoc = await this.sudokuService.getSudokuById(id);
+      res.sendFile(path.join(process.cwd(), pathToDoc));
     } catch (err) {
       console.log(err);
       throw new HttpException(err.toString(), HttpStatus.BAD_REQUEST);
@@ -27,8 +33,13 @@ export class SudokuController {
   }
 
   @Get('/test')
-  @Render('sudoku')
-  public showSudoku() {
+  showSudoku(@Res() res, sudoku?) {
+    let sudokuForRendering = '';
+    if (!sudoku) {
+    } else {
+      sudokuForRendering = sudoku;
+    }
+    res.sendFile(path.join(process.cwd(), './src/sudoku/frontend/sudoku.html'));
     return;
   }
 

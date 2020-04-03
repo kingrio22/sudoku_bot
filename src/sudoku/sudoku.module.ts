@@ -3,6 +3,7 @@ import { Cell } from '../cell/entities/cell.entity';
 import { CellModule } from '../cell/cell.module';
 import { CellRepository } from '../cell/repos/cell.repository';
 import { CellService } from '../cell/services/cell.service';
+import { CreateTableService } from './services/create-table.service';
 import { Module } from '@nestjs/common';
 import { Sudoku } from './entities/sudoku.entity';
 import { SudokuController } from './controllers/sudoku.controller';
@@ -16,6 +17,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forFeature([SudokuRepository, CellRepository]),
   ],
   controllers: [SudokuController],
-  providers: [SudokuService, CalculationService, CellService],
+  providers: [
+    SudokuService,
+    CalculationService,
+    CellService,
+    CreateTableService,
+  ],
 })
 export class SudokuModule {}
