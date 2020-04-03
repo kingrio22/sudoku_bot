@@ -17,6 +17,9 @@ const typeOrmConfig: TypeOrmModuleOptions = {
   migrationsRun: false,
   logging: true,
   logger: 'file',
+  ssl: {
+    rejectUnauthorized: true,
+  },
 
   //   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   //   cli: {
