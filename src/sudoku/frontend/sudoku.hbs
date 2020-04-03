@@ -284,15 +284,16 @@ function solveSudoku(){
   }
   let request = new XMLHttpRequest(); 
   let matrixForFill = undefined; 
+
   request.open('POST', 'http://localhost:2102/sudoku/solve', true); 
   request.setRequestHeader('content-type', 'application/json'); 
   request.send(JSON.stringify(matrix))
   request.onreadystatechange = ()=>{
     if(request.readyState === 4 && request.status === 201){
-console.log(request.response)
+
     let response = JSON.parse(request.response); 
     matrixForFill = response.result; 
-     console.log(matrixForFill); 
+
      for(let i=0; i<cells.length; i++){
        cells[i].textContent = matrixForFill[i].toString(); 
      }
@@ -305,77 +306,89 @@ console.log(request.response)
 
 
 function leaveEdit() {
+  validateInputs();
   let buttons = document.getElementsByTagName('button');
-  for (const button of buttons) {
-    if (button.style.display === 'none') {
-      button.style.display = 'block';
-    } else {
-      button.style.display = 'none';
-    }
-  }
   let cells = document.getElementsByClassName('cell');
   let matrix = [];
+  let inputCounter = 0;
+   let request = new XMLHttpRequest(); 
+  for(let i = 0; i<cells.length; i++){
+    if(cells[i].firstChild.value !=''){
+      inputCounter++; 
+    }
+  }
+
+      //minimale anzahl an given-elements die notwendig ist um ein sudoku lösen zu können
+ if(inputCounter<16){
+      alert('Need more given numbers, to solve this sudoku'); 
+    }else{
+
   for (let i = 0; i < 9; i++) {
     matrix[i] = [];
     for (let j = 0; j < 9; j++) {
       let cell = cells[i * 9 + j];
       if (cell.firstChild.value != '') {
+
         matrix[i][j] = {
           value: parseInt(cell.firstChild.value),
           given: true,
           even: false,
         };
-        let value = cell.firstChild.value
-        cell.classList.add('given');
-          cell.firstChild.remove();
-          cell.textContent = value.toString(); 
+  
       } else {
         matrix[i][j] = {
           value: 0,
           given: false,
           even: false,
         };
-        cell.classList.add('input');
+       
       }
     }
   }
+      request.open('POST', 'http://localhost:2102/sudoku/save', true ); 
+      request.setRequestHeader('content-type', 'application/json')
+      request.send(JSON.stringify(matrix)); 
+      request.onreadystatechange = ()=>{
+        if(request.readyState === 4){
+          if(request.status === 201){
+          
 
- let request = new XMLHttpRequest(); 
- request.open('POST', 'http://localhost:2102/sudoku/save', true ); 
- request.setRequestHeader('content-type', 'application/json')
- request.send(JSON.stringify(matrix)); 
-
-}
-
-let values = document.getElementsByTagName('input');
-for (let i = 0; i < values.length; i++) {
-  values[i].oninput = value => {
-    if (value.isTrusted) {
-      console.log('on input'); 
-      console.log(values[i])
-      if (values[i].value == '') {
-        values[i].classList.remove('mistake');
-      } else {
-        if (
-          (values[i].parentElement.classList[1] === 'even' &&
-            values[i].value % 2 != 0) ||
-          (values[i].value > 9)
-        ) {
-          values[i].classList.add('mistake');
-        } else {
-          values[i].classList.remove('mistake');
+        console.log("response after save: ", request.response); 
+  
+          for(let i=0;i<cells.length; i++){ 
+            let cell = cells[i]
+            if (cell.firstChild.value != '') {
+              let value = cell.firstChild.value
+                cell.classList.add('given');
+                  cell.firstChild.remove();
+                  cell.textContent = value.toString(); 
+            }else{
+              cell.classList.add('input');
+            }
+          for (const button of buttons) {
+            if (button.style.display === 'none') {
+              button.style.display = 'block';
+            } else {
+              button.style.display = 'none';
+            }
+          }
         }
+      }else{
+        alert('sudoku not solvable')
       }
+        }
     }
-  };
+  }
 }
+validateInputs(); 
+function validateInputs(){
+
 
 let cells = document.getElementsByClassName('cell');
 
 for (let i = 0; i < cells.length; i++) {
   cells[i].onchange = event => {
    
-
     let response = fillNewMatrix();
     let position = undefined;
           let errorElem = document.getElementById('showError');
@@ -442,7 +455,29 @@ for (let i = 0; i < cells.length; i++) {
     }
   };
 }
-
+let values = document.getElementsByTagName('input');
+for (let i = 0; i < values.length; i++) {
+  values[i].oninput = value => {
+    if (value.isTrusted) {
+      console.log('on input'); 
+      console.log(values[i])
+      if (values[i].value == '') {
+        values[i].classList.remove('mistake');
+      } else {
+        if (
+          (values[i].parentElement.classList[1] === 'even' &&
+            values[i].value % 2 != 0) ||
+          (values[i].value > 9 || values[i].value<1 )
+        ) {
+          values[i].classList.add('mistake');
+        } else {
+          values[i].classList.remove('mistake');
+        }
+      }
+    }
+  };
+}
+}
 function hasDuplicates(array) {
   for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array.length; j++) {

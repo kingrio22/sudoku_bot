@@ -24,9 +24,18 @@ export class SudokuService {
       throw new Error(err);
     }
   }
-  public async saveNewSudoku(matrix: any): Promise<void> {
-    console.log(matrix);
+  public async checkSudoku(matrix: any): Promise<void> {
+    try {
+      console.log(matrix);
+      let result = await this.solveSudoku(matrix);
+      this.saveNewSudoku(matrix);
+      return;
+    } catch (err) {
+      console.log(err);
+      throw new Error(err);
+    }
   }
+  public saveNewSudoku(matrix: any): void {}
 
   public async solveSudoku(matrix: any): Promise<any> {
     let matrixForSolve = [];

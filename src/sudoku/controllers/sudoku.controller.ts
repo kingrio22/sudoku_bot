@@ -44,7 +44,7 @@ export class SudokuController {
   @Post('/save')
   public async saveSudoku(@Body() body: any): Promise<void> {
     try {
-      return await this.sudokuService.saveNewSudoku(body);
+      return await this.sudokuService.checkSudoku(body);
     } catch (err) {
       throw new HttpException(err.toString(), HttpStatus.BAD_REQUEST);
     }
