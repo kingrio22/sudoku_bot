@@ -15,11 +15,11 @@ margin: 0px;
   width: 50px;
   align-items: center;
   font-size: 25px;
-
-  
 }
+
 .mistake{
   background-color: red !important; 
+  color: white;
 }
 colgroup,
 tbody {
@@ -51,6 +51,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .disabledInput{
   background-color: rgba(128, 128, 128, 0.226) !important;
+  color: white; 
 }
 
 .button{
@@ -70,9 +71,13 @@ input[type=number]::-webkit-outer-spin-button {
 #showError{
 
 }
-.error-line{
+.empty-error{
   height: 50px; 
-
+  margin-bottom: 10px; 
+  margin-top: 10px; 
+}
+.error-line{
+  background-color: rgba(134, 24, 24, 0.7);
 }
 
 .solve{
@@ -80,8 +85,9 @@ input[type=number]::-webkit-outer-spin-button {
   color: white; 
 }
 .card {
-  padding: 100px 100px 50px 100px; 
-  margin-bottom: 150px; 
+  padding: 20px; 
+  margin-bottom: 50px; 
+  
 }
 
 .edit{
@@ -142,10 +148,10 @@ input[type=number]::-webkit-outer-spin-button {
       <div class="navigation">
         <div class="row">
           <div class="col-3  text-center">
-            <a><button id="home-button" class="button hover ">Home</button></a>
+            <a href="/sudoku/test"><button id="home-button" class="button hover ">Home</button></a>
           </div>
           <div class="col-3 text-center">
-            <a><button id="neues-sudoku" class="button hover">New Sudoku</button></a>
+            <a href="/sudoku/id/2"><button id="neues-sudoku" class="button hover">New Sudoku</button></a>
           </div>
           <div class="col-3 text-center">
             <a><button id="editbutton" class="button hover">Edit</button></a>
@@ -156,10 +162,10 @@ input[type=number]::-webkit-outer-spin-button {
         </div>
       </div>
       <div class="row justify-content-center sudoku">
-        <div class="col-8 card"  style="background-color: rgba(0, 0, 0, 0.7);">
-          <div class="row ">
-            <div class="col text-center error-line" style="margin-top: 10px; color:red; font-size: large;">
-              <p id="showError"></p>
+        <div class="col-7 card" style="background-color: rgba(0, 0, 0,0.6);">
+          <div class="row justify-content-center">
+            <div class="col-8 empty-error text-center" style="margin-top: 10px;  color: rgba(197, 197, 170); font-size: 20px; ">
+              <p id="showError" style="margin-top: 12px;"></p>
             </div>
           </div>
           <div class="row justify-content-center">
@@ -369,7 +375,11 @@ function solveSudoku(){
     matrixForFill = response.result; 
 
      for(let i=0; i<cells.length; i++){
-       cells[i].textContent = matrixForFill[i].toString(); 
+
+      cells[i].textContent = matrixForFill[i].toString(); 
+      if(cells[i].classList.contains('input')){
+        cells[i].style.color = '#FFFFFF'
+      }
      }
   }
     }
@@ -469,6 +479,7 @@ for (let i = 0; i < cells.length; i++) {
     if (event.isTrusted) {
        if(isNaN(parseInt(cells[i].firstChild.value))){
          errorElem.style.display = 'none';
+         errorElem.parentElement.classList.remove('error-line')
         for (const value of values) {
           value.disabled = false;
           value.classList.remove('disabledInput');
@@ -508,18 +519,21 @@ for (let i = 0; i < cells.length; i++) {
 
       if (duplicateInput) {
         errorElem.textContent = `Last input results in ${position} error`;
+        errorElem.parentElement.classList.add('error-line')
         errorElem.style.display = 'block';
 
         for (const value of values) {
           value.disabled = true;
           value.classList.add('disabledInput');
           value.parentElement.classList.add('disabledInput');
+          console.log(value.parentElement); 
         }
         cells[i].classList.remove('disabledInput');
         cells[i].firstChild.classList.remove('disabledInput');
         cells[i].firstChild.disabled = false;
       } else {
         errorElem.style.display = 'none';
+        errorElem.parentElement.classList.remove('error-line')
         for (const value of values) {
           value.disabled = false;
           value.classList.remove('disabledInput');

@@ -2,88 +2,133 @@
 <html>
   <head>
     <style>
+      @import url('https://fonts.googleapis.com/css?family=Comfortaa|Patrick+Hand|Quicksand&display=swap');
+      * {
+        font-family: 'Comfortaa', cursive;
+      }
+
       .cell {
-  border: solid 1px black;
-  height: 50px;
-  width: 50px;
-  align-items: center;
-  font-size: 25px;
-}
-.mistake{
-  background-color: red !important; 
-}
-colgroup,
-tbody {
-  border: solid medium;
-}
-.given {
-  color: red;
-  font-weight: bold;
-}
-.hidden{
-  display: none; 
-}
-input{
-  text-align: center;
-  height: 100%; 
-  width: 100%; 
-  margin: 0; 
-  padding: 0; 
-}
+        border: 0.2px solid black;
+        padding: 0px;
+        margin: 0px;
+        height: 50px;
+        width: 50px;
+        align-items: center;
+        font-size: 25px;
+      }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-  padding: 0; 
-}
-.disabledInput{
-  background-color: rgba(128, 128, 128, 0.226) !important;
-}
+      .mistake {
+        background-color: red !important;
+        color: white;
+      }
+      colgroup,
+      tbody {
+        border: solid medium;
+      }
+      .given {
+        color: red;
+        font-weight: bold;
+      }
+      .hidden {
+        display: none;
+      }
+      input {
+        text-align: center;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0px solid;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
 
-.button{
-  margin: 50px 0 0 0; 
-  border-radius: 5px; 
-  border-style: solid;
-  border-width: 1px;
-  border-color: transparent; 
-  width: 100%; 
-  height: 50px; 
-}
-#showError{
-  display: none; 
-}
+      input[type='number']::-webkit-inner-spin-button,
+      input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        padding: 0;
+      }
+      .disabledInput {
+        background-color: rgba(128, 128, 128, 0.226) !important;
+        color: white;
+      }
 
-.solve{
-  background-color: green; 
-  color: white; 
-}
+      .button {
+        border-radius: 0px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: rgba(197, 197, 170);
+        color: rgba(197, 197, 170);
+        background-color: rgba(197, 197, 170, 0);
+        font-weight: bolder;
+        padding: 10px;
+        margin-right: 30px;
 
+        width: 100%;
+        height: 50px;
+      }
+      #showError {
+      }
+      .empty-error {
+        height: 50px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+      .error-line {
+        background-color: rgba(134, 24, 24, 0.7);
+      }
 
-.edit{
-  background-color: orange; 
-  color: white; 
-}
-.leave{
-  background-color:green; 
-  color: white; 
+      .solve {
+        background-color: green;
+        color: white;
+      }
+      .card {
+        padding: 20px;
+        margin-bottom: 50px;
+      }
 
-}
+      .edit {
+        background-color: orange;
+        color: white;
+      }
+      .leave-hidden {
+        margin-top: 50px;
+        color: rgba(197, 197, 170, 0);
+        background-color: rgba(197, 197, 170, 0);
+        border-color: rgba(197, 197, 170, 0);
+      }
 
-.even {
-  background-color: rgba(118, 230, 127, 0.5);
-}
-.even input {
-  background-color: rgba(118, 230, 127, 0.2);;
-}
-.sudoku{
-  margin-top: 100px; 
-}
+      .leave-show {
+        margin-top: 50px;
+        border-color: rgba(197, 197, 170);
+        color: rgba(197, 197, 170);
+        background-color: rgba(197, 197, 170, 0);
+      }
 
+      .even {
+        background-color: rgba(118, 230, 127, 0.5);
+      }
+      .even input {
+        background-color: rgba(118, 230, 127, 0.2);
+      }
+      .sudoku {
+        margin-top: 100px;
+      }
 
-input {
-  border: none;
-}
+      .navigation {
+        background-color: rgba(0, 0, 0, 0.7);
+        color: rgba(197, 197, 170, 0.719);
+        padding: 20px;
+      }
+      .hover:hover {
+        background-color: rgba(197, 197, 170, 0.719);
+        color: rgba(0, 0, 0, 0.7);
+      }
+
+      .button-col {
+        vertical-align: middle;
+        max-width: 70%;
+      }
     </style>
     <link
       rel="stylesheet"
@@ -92,26 +137,58 @@ input {
       crossorigin="anonymous"
     />
   </head>
+
   <body>
-    <div class="container">
-      <div class="row justify-content-center sudoku">
-        <div class="col-auto">
-          {{{table}}}
-          <div class="row justify-content-center">
-            <div class="col-4 text-center">
-              <button id="editbutton" class="button edit">Bearbeiten</button>
+    <div
+      class="container-fluid background"
+      style="background-image: url('http://localhost:2102/background-sudoku.jpg');"
+    >
+      <div class="container">
+        <div class="navigation">
+          <div class="row">
+            <div class="col-3  text-center">
+              <a href="/sudoku/test"
+                ><button id="home-button" class="button hover ">Home</button></a
+              >
             </div>
-             <div class="col-4 text-center">
-              <button id="leavebutton" class="button leave" style="display: none;">Bearbeiten beenden</button>
-          </div>
-            <div class="col-4 text-center">
-              <button id="solvebutton" class="button solve">Lösen</button>
+            <div class="col-3 text-center">
+              <a href="/sudoku/id/2"
+                ><button id="neues-sudoku" class="button hover">
+                  New Sudoku
+                </button></a
+              >
+            </div>
+            <div class="col-3 text-center">
+              <a><button id="editbutton" class="button hover">Edit</button></a>
+            </div>
+            <div class="col-3 text-center">
+              <a
+                ><button id="solvebutton" class="button hover">Solve</button></a
+              >
             </div>
           </div>
-           
-          <div class="row ">
-            <div class="col text-center" style="margin-top: 10px; color:red; font-size: large;">
-              <p id="showError"></p>
+        </div>
+        <div class="row justify-content-center sudoku">
+          <div class="col-7 card" style="background-color: rgba(0, 0, 0,0.6);">
+            <div class="row justify-content-center">
+              <div
+                class="col-8 empty-error text-center"
+                style="margin-top: 10px;  color: rgba(197, 197, 170); font-size: 20px; "
+              >
+                <p id="showError" style="margin-top: 12px;"></p>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-auto">
+                {{{table}}}
+                <div class="row justify-content-center">
+                  <div class="col-6 text-center">
+                    <button id="leavebutton" class="button hover leave-hidden">
+                      leave edit mode
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -119,329 +196,338 @@ input {
     </div>
   </body>
   <script>
-document.querySelector('#editbutton').addEventListener('click', editMode);
-document.querySelector('#leavebutton').addEventListener('click', leaveEdit);
-document.querySelector('#solvebutton').addEventListener('click', solveSudoku);
+    document.querySelector('#editbutton').addEventListener('click', editMode);
+    document.querySelector('#leavebutton').addEventListener('click', leaveEdit);
+    document
+      .querySelector('#solvebutton')
+      .addEventListener('click', solveSudoku);
 
-function editMode() {
-  console.log('in edit mode');
-  let buttons = document.getElementsByTagName('button');
-  for (const button of buttons) {
-    if (button.style.display === 'none') {
-      button.style.display = 'block';
+    let button = document.getElementById('leavebutton');
+
+    if (button.classList.contains('leave-hidden')) {
+      button.setAttribute('disabled', true);
+      button.classList.remove('hover');
     } else {
-      button.style.display = 'none';
     }
-  }
-  let cells = document.getElementsByClassName('cell');
 
-  for (const cell of cells) {
-    cell.classList.remove('given', 'even', 'input');
-    cell.firstChild.remove();
-    let inputElem = document.createElement('input');
-    inputElem.type ="number"
+    function editMode() {
+      let button = document.getElementById('leavebutton');
+      if (button.classList.contains('leave-hidden')) {
+        button.classList.remove('leave-hidden');
+        button.disabled = false;
+        console.log(button);
+        button.classList.add('leave-show');
+        button.classList.add('hover');
+        let cells = document.getElementsByClassName('cell');
 
-    cell.appendChild(inputElem);
-  }
-}
+        for (const cell of cells) {
+          cell.classList.remove('given', 'even', 'input');
+          cell.firstChild.remove();
+          let inputElem = document.createElement('input');
+          inputElem.type = 'number';
 
-function solveSudoku(){
-  let cells = document.getElementsByClassName('cell'); 
-  let matrix = []; 
-   for (let i = 0; i < 9; i++) {
-    matrix[i] = [];
-    for (let j = 0; j < 9; j++) {
-      let cell = cells[i * 9 + j];
-      let given = false; 
-      for(classList of cell.classList){
-          if(classList === 'given'){
-            given = true; 
-          }
+          cell.appendChild(inputElem);
         }
-      if (cell.firstChild.value != '' && given) {
-        matrix[i][j] = {
-          value: parseInt(cell.firstChild.textContent),
-          classList: cell.classList
-        };
       } else {
-        matrix[i][j] = {
-          value: 0,
-          classList: cell.classList
-        };
+        button.disabled = true;
+        button.classList.add('leave-hidden');
+        button.classList.remove('hover');
+        return;
       }
     }
-  }
-  let request = new XMLHttpRequest(); 
-  let matrixForFill = undefined; 
 
-  request.open('POST', 'http://localhost:2102/sudoku/solve', true); 
-  request.setRequestHeader('content-type', 'application/json'); 
-  request.send(JSON.stringify(matrix))
-  request.onreadystatechange = ()=>{
-    if(request.readyState === 4 && request.status === 201){
+    function solveSudoku() {
+      let cells = document.getElementsByClassName('cell');
+      let matrix = [];
+      for (let i = 0; i < 9; i++) {
+        matrix[i] = [];
+        for (let j = 0; j < 9; j++) {
+          let cell = cells[i * 9 + j];
+          let given = false;
+          for (classList of cell.classList) {
+            if (classList === 'given') {
+              given = true;
+            }
+          }
+          if (cell.firstChild.value != '' && given) {
+            matrix[i][j] = {
+              value: parseInt(cell.firstChild.textContent),
+              classList: cell.classList,
+            };
+          } else {
+            matrix[i][j] = {
+              value: 0,
+              classList: cell.classList,
+            };
+          }
+        }
+      }
+      let request = new XMLHttpRequest();
+      let matrixForFill = undefined;
 
-    let response = JSON.parse(request.response); 
-    matrixForFill = response.result; 
+      request.open('POST', 'http://localhost:2102/sudoku/solve', true);
+      request.setRequestHeader('content-type', 'application/json');
+      request.send(JSON.stringify(matrix));
+      request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 201) {
+          let response = JSON.parse(request.response);
+          matrixForFill = response.result;
 
-     for(let i=0; i<cells.length; i++){
-       cells[i].textContent = matrixForFill[i].toString(); 
-     }
-  }
+          for (let i = 0; i < cells.length; i++) {
+            cells[i].textContent = matrixForFill[i].toString();
+            if (cells[i].classList.contains('input')) {
+              cells[i].style.color = '#FFFFFF';
+            }
+          }
+        }
+      };
     }
-    
-}
 
-
-
-
-function leaveEdit() {
-  validateInputs();
-  let buttons = document.getElementsByTagName('button');
-  let cells = document.getElementsByClassName('cell');
-  let matrix = [];
-  let inputCounter = 0;
-   let request = new XMLHttpRequest(); 
-  for(let i = 0; i<cells.length; i++){
-    if(cells[i].firstChild.value !=''){
-      inputCounter++; 
-    }
-  }
+    function leaveEdit() {
+      validateInputs();
+      let buttons = document.getElementsByTagName('button');
+      let cells = document.getElementsByClassName('cell');
+      let matrix = [];
+      let inputCounter = 0;
+      let request = new XMLHttpRequest();
+      for (let i = 0; i < cells.length; i++) {
+        if (cells[i].firstChild.value != '') {
+          inputCounter++;
+        }
+      }
 
       //minimale anzahl an given-elements die notwendig ist um ein sudoku lösen zu können
- if(inputCounter<16){
-      alert('Need more given numbers, to solve this sudoku'); 
-    }else{
-
-  for (let i = 0; i < 9; i++) {
-    matrix[i] = [];
-    for (let j = 0; j < 9; j++) {
-      let cell = cells[i * 9 + j];
-      if (cell.firstChild.value != '') {
-
-        matrix[i][j] = {
-          value: parseInt(cell.firstChild.value),
-          given: true,
-          even: false,
-        };
-  
+      if (inputCounter < 16) {
+        alert('Need more given numbers, to solve this sudoku');
       } else {
-        matrix[i][j] = {
-          value: 0,
-          given: false,
-          even: false,
-        };
-       
-      }
-    }
-  }
-      request.open('POST', 'http://localhost:2102/sudoku/save', true ); 
-      request.setRequestHeader('content-type', 'application/json')
-      request.send(JSON.stringify(matrix)); 
-      request.onreadystatechange = ()=>{
-        if(request.readyState === 4){
-          if(request.status === 201){
-          
-
-        console.log("response after save: ", request.response); 
-  
-          for(let i=0;i<cells.length; i++){ 
-            let cell = cells[i]
+        for (let i = 0; i < 9; i++) {
+          matrix[i] = [];
+          for (let j = 0; j < 9; j++) {
+            let cell = cells[i * 9 + j];
             if (cell.firstChild.value != '') {
-              let value = cell.firstChild.value
-                cell.classList.add('given');
-                  cell.firstChild.remove();
-                  cell.textContent = value.toString(); 
-            }else{
-              cell.classList.add('input');
-            }
-          for (const button of buttons) {
-            if (button.style.display === 'none') {
-              button.style.display = 'block';
+              matrix[i][j] = {
+                value: parseInt(cell.firstChild.value),
+                given: true,
+                even: false,
+              };
             } else {
-              button.style.display = 'none';
+              matrix[i][j] = {
+                value: 0,
+                given: false,
+                even: false,
+              };
             }
           }
         }
-      }else{
-        alert('sudoku not solvable')
+        request.open('POST', 'http://localhost:2102/sudoku/save', true);
+        request.setRequestHeader('content-type', 'application/json');
+        request.send(JSON.stringify(matrix));
+        request.onreadystatechange = () => {
+          if (request.readyState === 4) {
+            if (request.status === 201) {
+              console.log('response after save: ', request.response);
+
+              for (let i = 0; i < cells.length; i++) {
+                let cell = cells[i];
+                if (cell.firstChild.value != '') {
+                  let value = cell.firstChild.value;
+                  cell.classList.add('given');
+                  cell.firstChild.remove();
+                  cell.textContent = value.toString();
+                } else {
+                  cell.classList.add('input');
+                }
+                for (const button of buttons) {
+                  if (button.style.display === 'none') {
+                    button.style.display = 'block';
+                  } else {
+                    button.style.display = 'none';
+                  }
+                }
+              }
+            } else {
+              alert('sudoku not solvable');
+            }
+          }
+        };
       }
-        }
     }
-  }
-}
-validateInputs(); 
-function validateInputs(){
+    validateInputs();
+    function validateInputs() {
+      let cells = document.getElementsByClassName('cell');
 
-
-let cells = document.getElementsByClassName('cell');
-
-for (let i = 0; i < cells.length; i++) {
-  cells[i].onchange = event => {
-   
-    let response = fillNewMatrix();
-    let position = undefined;
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].onchange = event => {
+          let response = fillNewMatrix();
+          let position = undefined;
           let errorElem = document.getElementById('showError');
-    if (event.isTrusted) {
-       if(isNaN(parseInt(cells[i].firstChild.value))){
-         errorElem.style.display = 'none';
-        for (const value of values) {
-          value.disabled = false;
-          value.classList.remove('disabledInput');
-          value.parentElement.classList.remove('disabledInput');
-        }
-      return; 
-    }
-      let duplicateInput = false;
-      let neededCol = extractColFromMatrix(
-        response.matrix,
-        response.changedCell.col,
-      );
-      if (hasDuplicates(response.matrix[response.changedCell.row])) {
-        position = 'row';
-        duplicateInput = true;
-      } else if (hasDuplicates(neededCol)) {
-        duplicateInput = true;
-        position = 'col';
-      } else if (
-        checkNumbersInMiniSquare(
-          response.matrix[response.changedCell.row][response.changedCell.col],
-          response.changedCell.row,
-          response.changedCell.col,
-          response.matrix,
-        )
-      ) {
-        duplicateInput = true;
-        position = 'square';
-      }
-      console.log()
-      if((parseInt(cells[i].firstChild.value) > 9) || (parseInt(cells[i].firstChild.value) < 1)){
-        duplicateInput = true; 
-        position = 'number out of range'
-      }
+          if (event.isTrusted) {
+            if (isNaN(parseInt(cells[i].firstChild.value))) {
+              errorElem.style.display = 'none';
+              errorElem.parentElement.classList.remove('error-line');
+              for (const value of values) {
+                value.disabled = false;
+                value.classList.remove('disabledInput');
+                value.parentElement.classList.remove('disabledInput');
+              }
+              return;
+            }
+            let duplicateInput = false;
+            let neededCol = extractColFromMatrix(
+              response.matrix,
+              response.changedCell.col,
+            );
+            if (hasDuplicates(response.matrix[response.changedCell.row])) {
+              position = 'row';
+              duplicateInput = true;
+            } else if (hasDuplicates(neededCol)) {
+              duplicateInput = true;
+              position = 'col';
+            } else if (
+              checkNumbersInMiniSquare(
+                response.matrix[response.changedCell.row][
+                  response.changedCell.col
+                ],
+                response.changedCell.row,
+                response.changedCell.col,
+                response.matrix,
+              )
+            ) {
+              duplicateInput = true;
+              position = 'square';
+            }
+            console.log();
+            if (
+              parseInt(cells[i].firstChild.value) > 9 ||
+              parseInt(cells[i].firstChild.value) < 1
+            ) {
+              duplicateInput = true;
+              position = 'number out of range';
+            }
 
+            if (duplicateInput) {
+              errorElem.textContent = `Last input results in ${position} error`;
+              errorElem.parentElement.classList.add('error-line');
+              errorElem.style.display = 'block';
 
-
-      if (duplicateInput) {
-        errorElem.textContent = `Last input results in ${position} error`;
-        errorElem.style.display = 'block';
-
-        for (const value of values) {
-          value.disabled = true;
-          value.classList.add('disabledInput');
-          value.parentElement.classList.add('disabledInput');
-        }
-        cells[i].classList.remove('disabledInput');
-        cells[i].firstChild.classList.remove('disabledInput');
-        cells[i].firstChild.disabled = false;
-      } else {
-        errorElem.style.display = 'none';
-        for (const value of values) {
-          value.disabled = false;
-          value.classList.remove('disabledInput');
-          value.parentElement.classList.remove('disabledInput');
-        }
+              for (const value of values) {
+                value.disabled = true;
+                value.classList.add('disabledInput');
+                value.parentElement.classList.add('disabledInput');
+                console.log(value.parentElement);
+              }
+              cells[i].classList.remove('disabledInput');
+              cells[i].firstChild.classList.remove('disabledInput');
+              cells[i].firstChild.disabled = false;
+            } else {
+              errorElem.style.display = 'none';
+              errorElem.parentElement.classList.remove('error-line');
+              for (const value of values) {
+                value.disabled = false;
+                value.classList.remove('disabledInput');
+                value.parentElement.classList.remove('disabledInput');
+              }
+            }
+          }
+        };
       }
-    }
-  };
-}
-let values = document.getElementsByTagName('input');
-for (let i = 0; i < values.length; i++) {
-  values[i].oninput = value => {
-    if (value.isTrusted) {
-      console.log('on input'); 
-      console.log(values[i])
-      if (values[i].value == '') {
-        values[i].classList.remove('mistake');
-      } else {
-        if (
-          (values[i].parentElement.classList[1] === 'even' &&
-            values[i].value % 2 != 0) ||
-          (values[i].value > 9 || values[i].value<1 )
-        ) {
-          values[i].classList.add('mistake');
-        } else {
-          values[i].classList.remove('mistake');
-        }
-      }
-    }
-  };
-}
-}
-function hasDuplicates(array) {
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array.length; j++) {
-      if (array[i] != '' && array[j] != '' && i != j) {
-        if (array[i] === array[j]) {
-          return true;
-        }
+      let values = document.getElementsByTagName('input');
+      for (let i = 0; i < values.length; i++) {
+        values[i].oninput = value => {
+          if (value.isTrusted) {
+            console.log('on input');
+            console.log(values[i]);
+            if (values[i].value == '') {
+              values[i].classList.remove('mistake');
+            } else {
+              if (
+                (values[i].parentElement.classList[1] === 'even' &&
+                  values[i].value % 2 != 0) ||
+                values[i].value > 9 || values[i].value < 1
+              ) {
+                values[i].classList.add('mistake');
+              } else {
+                values[i].classList.remove('mistake');
+              }
+            }
+          }
+        };
       }
     }
-  }
-  return false;
-}
-function extractColFromMatrix(matrix, col) {
-  let extractedCol = [];
-  for (let i = 0; i < 9; i++) {
-    extractedCol.push(matrix[i][col]);
-  }
-  console.log(extractedCol);
-  return extractedCol;
-}
-
-function checkNumbersInMiniSquare(numberToCheck, x, y, matrix) {
-  for (let i = x - (x % 3); i < x - (x % 3) + 3; i++) {
-    for (let j = y - (y % 3); j < y - (y % 3) + 3; j++) {
-      if (i === x && y === j) {
-        continue;
-      }
-      if (matrix[i][j] != '') {
-        if (matrix[i][j] === numberToCheck) {
-          return true;
+    function hasDuplicates(array) {
+      for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array.length; j++) {
+          if (array[i] != '' && array[j] != '' && i != j) {
+            if (array[i] === array[j]) {
+              return true;
+            }
+          }
         }
       }
+      return false;
     }
-  }
-  return false;
-}
+    function extractColFromMatrix(matrix, col) {
+      let extractedCol = [];
+      for (let i = 0; i < 9; i++) {
+        extractedCol.push(matrix[i][col]);
+      }
+      console.log(extractedCol);
+      return extractedCol;
+    }
 
-function fillNewMatrix() {
-  let counter = 0;
-  let matrix = [];
-  let changedCell = {
-    row: undefined,
-    col: undefined,
-  };
-  let cells = document.getElementsByClassName('cell');
-  for (let i = 0; i < 9; i++) {
-    matrix[i] = [];
-    for (let j = 0; j < 9; j++) {
-      let value;
-      if (cells[i * 9 + j].firstElementChild) {
-        counter++;
-        value = parseInt(cells[i * 9 + j].firstChild.value);
-        if (!isNaN(value)) {
-          console.log('in if', value);
-          changedCell.row = i;
-          changedCell.col = j;
+    function checkNumbersInMiniSquare(numberToCheck, x, y, matrix) {
+      for (let i = x - (x % 3); i < x - (x % 3) + 3; i++) {
+        for (let j = y - (y % 3); j < y - (y % 3) + 3; j++) {
+          if (i === x && y === j) {
+            continue;
+          }
+          if (matrix[i][j] != '') {
+            if (matrix[i][j] === numberToCheck) {
+              return true;
+            }
+          }
         }
-      } else {
-        value = cells[i * 9 + j].textContent;
       }
-      if (isNaN(parseInt(value))) {
-        matrix[i].push('');
-        continue;
-      }
-
-      matrix[i].push(parseInt(value));
+      return false;
     }
-  }
-  console.log(counter);
-  let response = {
-    matrix: matrix,
-    changedCell: changedCell,
-  };
-  return response;
-}
 
+    function fillNewMatrix() {
+      let counter = 0;
+      let matrix = [];
+      let changedCell = {
+        row: undefined,
+        col: undefined,
+      };
+      let cells = document.getElementsByClassName('cell');
+      for (let i = 0; i < 9; i++) {
+        matrix[i] = [];
+        for (let j = 0; j < 9; j++) {
+          let value;
+          if (cells[i * 9 + j].firstElementChild) {
+            counter++;
+            value = parseInt(cells[i * 9 + j].firstChild.value);
+            if (!isNaN(value)) {
+              console.log('in if', value);
+              changedCell.row = i;
+              changedCell.col = j;
+            }
+          } else {
+            value = cells[i * 9 + j].textContent;
+          }
+          if (isNaN(parseInt(value))) {
+            matrix[i].push('');
+            continue;
+          }
+
+          matrix[i].push(parseInt(value));
+        }
+      }
+      console.log(counter);
+      let response = {
+        matrix: matrix,
+        changedCell: changedCell,
+      };
+      return response;
+    }
   </script>
 </html>
