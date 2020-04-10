@@ -24,8 +24,10 @@ export class SudokuController {
     @Param('id') id: number,
   ): Promise<any> {
     try {
-      let pathToDoc = await this.sudokuService.getSudokuById(id);
-      res.sendFile(path.join(process.cwd(), pathToDoc));
+      let html = await this.sudokuService.getSudokuById(id);
+
+      res.setHeader('content-type', 'text/html');
+      res.send(html);
     } catch (err) {
       console.log(err);
       throw new HttpException(err.toString(), HttpStatus.BAD_REQUEST);

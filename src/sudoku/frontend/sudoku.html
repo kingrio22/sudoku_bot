@@ -2,12 +2,21 @@
 <html>
   <head>
     <style>
-      .cell {
-  border: solid 1px black;
+       @import url('https://fonts.googleapis.com/css?family=Comfortaa|Patrick+Hand|Quicksand&display=swap');
+       * {
+  font-family: 'Comfortaa', cursive;
+}
+     
+  .cell {
+border: 0.2px solid black; 
+padding: 0px; 
+margin: 0px; 
   height: 50px;
   width: 50px;
   align-items: center;
   font-size: 25px;
+
+  
 }
 .mistake{
   background-color: red !important; 
@@ -15,6 +24,7 @@
 colgroup,
 tbody {
   border: solid medium;
+
 }
 .given {
   color: red;
@@ -29,6 +39,8 @@ input{
   width: 100%; 
   margin: 0; 
   padding: 0; 
+  border: 0px solid; 
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 input[type=number]::-webkit-inner-spin-button, 
@@ -42,32 +54,52 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .button{
-  margin: 50px 0 0 0; 
-  border-radius: 5px; 
+  border-radius: 0px;
+  border-width: 2px;
   border-style: solid;
-  border-width: 1px;
-  border-color: transparent; 
+  border-color: rgba(197, 197, 170);
+  color: rgba(197, 197, 170);
+  background-color: rgba(197, 197, 170, 0);
+  font-weight: bolder;
+  padding: 10px; 
+  margin-right: 30px; 
+
   width: 100%; 
   height: 50px; 
 }
 #showError{
-  display: none; 
+
+}
+.error-line{
+  height: 50px; 
+
 }
 
 .solve{
   background-color: green; 
   color: white; 
 }
-
+.card {
+  padding: 100px 100px 50px 100px; 
+  margin-bottom: 150px; 
+}
 
 .edit{
   background-color: orange; 
   color: white; 
 }
-.leave{
-  background-color:green; 
-  color: white; 
+.leave-hidden{
+  margin-top: 50px;
+  color: rgba(197, 197, 170, 0);
+  background-color: rgba(197, 197, 170, 0);
+  border-color: rgba(197, 197, 170, 0);
+}
 
+.leave-show{
+  margin-top: 50px;
+  border-color: rgba(197, 197, 170);
+  color: rgba(197, 197, 170);
+  background-color: rgba(197, 197, 170, 0);
 }
 
 .even {
@@ -80,10 +112,21 @@ input[type=number]::-webkit-outer-spin-button {
   margin-top: 100px; 
 }
 
-
-input {
-  border: none;
+.navigation {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: rgba(197, 197, 170, 0.719);
+  padding: 20px; 
 }
+.hover:hover{
+  background-color: rgba(197, 197, 170, 0.719);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.button-col{
+  vertical-align: middle;
+  max-width: 70%;
+}
+
     </style>
     <link
       rel="stylesheet"
@@ -92,11 +135,36 @@ input {
       crossorigin="anonymous"
     />
   </head>
+
   <body>
+    <div class="container-fluid background" style="background-image: url('http://localhost:2102/background-sudoku.jpg');">
     <div class="container">
+      <div class="navigation">
+        <div class="row">
+          <div class="col-3  text-center">
+            <a><button id="home-button" class="button hover ">Home</button></a>
+          </div>
+          <div class="col-3 text-center">
+            <a><button id="neues-sudoku" class="button hover">New Sudoku</button></a>
+          </div>
+          <div class="col-3 text-center">
+            <a><button id="editbutton" class="button hover">Edit</button></a>
+          </div>
+          <div class="col-3 text-center">
+            <a><button id="solvebutton" class="button hover">Solve</button></a>
+          </div>
+        </div>
+      </div>
       <div class="row justify-content-center sudoku">
-        <div class="col-auto">
-          <table id="sudoku">
+        <div class="col-8 card"  style="background-color: rgba(0, 0, 0, 0.7);">
+          <div class="row ">
+            <div class="col text-center error-line" style="margin-top: 10px; color:red; font-size: large;">
+              <p id="showError"></p>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-auto">
+              <table id="sudoku">
             <colgroup><col><col><col>
             <colgroup><col><col><col>
             <colgroup><col><col><col>
@@ -209,24 +277,15 @@ input {
           </table>
          
           <div class="row justify-content-center">
-            <div class="col-4 text-center">
-              <button id="editbutton" class="button edit">Bearbeiten</button>
-            </div>
-             <div class="col-4 text-center">
-              <button id="leavebutton" class="button leave" style="display: none;">Bearbeiten beenden</button>
-          </div>
-            <div class="col-4 text-center">
-              <button id="solvebutton" class="button solve">Lösen</button>
+             <div class="col-6 text-center">
+              <button id="leavebutton" class="button hover leave-hidden">leave edit mode</button>
             </div>
           </div>
-           
-          <div class="row ">
-            <div class="col text-center" style="margin-top: 10px; color:red; font-size: large;">
-              <p id="showError"></p>
-            </div>
+          </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   </body>
   <script>
@@ -234,17 +293,26 @@ document.querySelector('#editbutton').addEventListener('click', editMode);
 document.querySelector('#leavebutton').addEventListener('click', leaveEdit);
 document.querySelector('#solvebutton').addEventListener('click', solveSudoku);
 
+let button = document.getElementById('leavebutton'); 
+
+if(button.classList.contains('leave-hidden')){
+  button.setAttribute('disabled', true); 
+  button.classList.remove('hover'); 
+}else{
+
+}
+
+
 function editMode() {
-  console.log('in edit mode');
-  let buttons = document.getElementsByTagName('button');
-  for (const button of buttons) {
-    if (button.style.display === 'none') {
-      button.style.display = 'block';
-    } else {
-      button.style.display = 'none';
-    }
-  }
-  let cells = document.getElementsByClassName('cell');
+
+  let button = document.getElementById('leavebutton');
+    if(button.classList.contains('leave-hidden')){
+      button.classList.remove('leave-hidden'); 
+      button.disabled = false; 
+      console.log(button)
+      button.classList.add('leave-show'); 
+      button.classList.add('hover')
+      let cells = document.getElementsByClassName('cell');
 
   for (const cell of cells) {
     cell.classList.remove('given', 'even', 'input');
@@ -254,6 +322,12 @@ function editMode() {
 
     cell.appendChild(inputElem);
   }
+    }else{
+      button.disabled = true; 
+      button.classList.add('leave-hidden'); 
+      button.classList.remove('hover'); 
+      return; 
+    }
 }
 
 function solveSudoku(){

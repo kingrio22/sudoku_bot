@@ -18,10 +18,12 @@ export class SudokuService {
     try {
       let matrix = await this.sudokuRepo.findOne({ id: id });
       if (!matrix) {
-        return 'src/sudoku/frontend/sudoku.html';
+        console.log(`can't find sudoku with id: ${id}`);
+        throw new Error(`can't find sudoku with id: ${id}`);
       }
       return await this.createTableService.createTable(matrix, id);
     } catch (err) {
+      console.log(err);
       throw new Error(err);
     }
   }

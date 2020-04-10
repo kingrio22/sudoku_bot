@@ -46,9 +46,7 @@ export class CreateTableService {
     );
     const template = handlebars.compile(sudokuHtml);
     const compiledSudoku = template({ table });
-    const pathToDoc = `./src/sudoku/frontend/sudoku${id}.html`;
-    fs.writeFileSync(path.join(process.cwd(), pathToDoc), compiledSudoku);
 
-    return pathToDoc;
+    return compiledSudoku;
   }
 }
