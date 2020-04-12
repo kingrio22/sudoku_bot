@@ -15,5 +15,7 @@ async function bootstrap() {
 
   await app.listen(port);
   console.log(chalk.greenBright('app running on port ', port));
+  console.log('process cwd: ', join(process.cwd(), '../sudoku/src/public'));
+  console.log('dirname', join(__dirname, '..', '/src/sudoku/frontend'));
 }
 bootstrap();
