@@ -8,9 +8,8 @@ async function bootstrap() {
   const configService = new ConfigService();
   const port = configService.get('PORT');
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  console.log(join(process.cwd(), '../sudoku/src/public'));
-  app.useStaticAssets(join(process.cwd(), '../sudoku/src/public'));
 
+  app.useStaticAssets(join(__dirname, '../sudoku/src/public'));
   app.setBaseViewsDir(join(__dirname, '..', '/src/sudoku/frontend'));
   app.setViewEngine('hbs');
 
