@@ -14,6 +14,6 @@ COPY . ${targetDir}
 
 RUN npm install
 
-EXPOSE 2102
+EXPOSE 3000
 
 CMD ["npm", "run", "start:develop"]

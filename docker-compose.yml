@@ -5,4 +5,4 @@ services:
     container_name: sudoku-app
     build: .
     ports:
-      - '3333:2102'
+      - '3000:3000'
