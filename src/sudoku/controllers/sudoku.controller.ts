@@ -14,7 +14,7 @@ import {
   Res,
 } from '@nestjs/common';
 
-@Controller('sudoku')
+@Controller()
 export class SudokuController {
   public constructor(private sudokuService: SudokuService) {}
 
@@ -34,7 +34,7 @@ export class SudokuController {
     }
   }
 
-  @Get('/test')
+  @Get('/')
   showSudoku(@Res() res, sudoku?) {
     let sudokuForRendering = '';
     if (!sudoku) {
@@ -45,7 +45,7 @@ export class SudokuController {
     return;
   }
 
-  @Get()
+  @Get('/random')
   public async getSudokuRandom(): Promise<Sudoku> {
     try {
       return await this.sudokuService.getSudokuRandom();

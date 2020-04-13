@@ -25,7 +25,7 @@ export class CreateTableService {
       let cell = sudoku.cells[i];
       let even = cell.isEven ? 'even' : '';
       let given = cell.isGiven ? 'given' : 'input';
-      let value = cell.value > 0 ? cell.value : `<input type="number">`;
+      let value = cell.value > 0 ? cell.value : `<input type="text">`;
       let row = `<td class="cell text-center ${even} ${given}">${value}</td>`;
 
       table += row;
