@@ -18,6 +18,17 @@ import {
 export class SudokuController {
   public constructor(private sudokuService: SudokuService) {}
 
+  @Get('/sudoku/test')
+  public async redirect(@Res() res, sudoku?) {
+    let sudokuForRendering = '';
+    if (!sudoku) {
+    } else {
+      sudokuForRendering = sudoku;
+    }
+    res.sendFile(path.join(process.cwd(), './src/sudoku/frontend/sudoku.html'));
+    return;
+  }
+
   @Get('/id/:id')
   public async getSudokuById(
     @Res() res,
