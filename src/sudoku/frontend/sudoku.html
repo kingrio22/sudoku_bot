@@ -132,25 +132,51 @@ input {
 }
 .background {
   width: 100%;
-  height:100%;
+  height: 100%;
 }
 
-.showMessage{
-  padding-top: 30px ;  
-  padding-bottom: 20px;
-  position: absolute ;
-  top: 250px;
-  left: 710px;    
-  color:  rgba(197, 197, 170);
-  background-color: rgba(0,0,0,0.9);
-  z-index: 5;
+.message-modal {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: none;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.3);
+  align-items: center;
+  z-index: 1; 
+}
+.modal-self {
+  width: 450px;
+  height: 250px;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-width: 0px; 
+  color: rgba(197, 197, 170);
+  font-size: 25px;
   border-radius: 5px;
-  width: 500px; 
-  height: 200px; 
-  font-size: 20px;
-  border-color: transparent; 
-  box-shadow: gray;
-  display: none; 
+  position: relative;
+
+}
+.close-modal {
+  position: absolute;
+  color: red ; 
+
+  top: 0;
+  right: 22px;
+  font-size: 42px ;
+  transform: rotate(45deg);
+  cursor: pointer;
+}
+
+.modal-custom-text{
+  margin-top: 40px; 
+}
+
+.modal-buttons{
+  margin-top: 40px; 
+  display: none;
+}
+.button-modal{
+  display: none;
 }
 
     </style>
@@ -164,40 +190,46 @@ input {
 
   <body>
     <div class="background" style="background-image: url('https://sudoku.kingrio22.io/background-sudoku.jpg');">
-      <div class="navigation">
-        <div class="container">
-        <div class="row">
-          <div class="col-3  text-center">
-            <a href="/"><button id="home-button" class="button hover ">Home</button></a>
-          </div>
-          <div class="col-3 text-center">
-            <a href="/id/2"><button id="neues-sudoku" class="button hover">New Sudoku</button></a>
-          </div>
-          <div class="col-3 text-center">
-            <a><button id="editbutton" class="button hover">Edit</button></a>
-          </div>
-          <div class="col-3 text-center">
-            <a><button id="solvebutton" class="button hover">Solve</button></a>
-          </div>
-        </div>
-      </div>
-      </div>
-      <div class="container">
-        <div id="message" class="showMessage">
+       <!-- Modal Section -->
+       <div id="message-modal" class="message-modal">
+        <div class="modal-self">
+          <div id="close-modal" class="close-modal">+</div>
           <div class="row justify-content-center">
-            <div class="col-8">
-              <p id="message-text">Are you sure? </br>all changes will be lost!</p>
-              <div class="row" style="margin-top: 30px;">
+            <div class="col-10 modal-custom-text">
+              <span id="modal-line-1"></span></br>
+              <span id="modal-line-2"></span>
+              <div class="row modal-buttons">
                 <div class="col-6 text-center">
-                  <a><button class="button hover" id="message-true"></button></a> 
+                  <button class="button hover button-modal" id="message-true"></button>
                 </div>
                 <div class="col-6 text-center">
-                  <a><button class="button hover" id="message-false"></button></a>
+                  <button class="button hover button-modal" id="message-false"></button>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <!-- Modal Section End-->
+      <div class="navigation">
+        <div class="container">
+          <div class="row">
+            <div class="col-3  text-center">
+              <a href="/"><button id="home-button" class="button hover ">Home</button></a>
+            </div>
+            <div class="col-3 text-center">
+             <a href="/id/2"><button id="new-sudoku" class="button hover">New Sudoku</button></a>
+            </div>
+            <div class="col-3 text-center">
+             <button id="editbutton" class="button hover">Edit</button>
+            </div>
+            <div class="col-3 text-center">
+             <button id="solvebutton" class="button hover">Solve</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
       <div class="row justify-content-center sudoku">
         <div class="col-lg-7 col-12 cards" style="background-color: rgba(0, 0, 0,0.6);">
           <div class="row justify-content-center">
@@ -332,331 +364,365 @@ input {
     </div>
   </body>
   <script>
-    const baseUrl = 'https://sudoku.kingrio22.io'; 
+const baseUrl = 'http://localhost:3000';
 
-document.querySelector('#editbutton').addEventListener('click', editMode);
+// document.querySelector('#home-button').addEventListener('click', homeButton)
+// document.querySelector('#new-sudoku').addEventListener('click', newSudokuButton)
+document.querySelector('#editbutton').addEventListener('click', editButton);
 document.querySelector('#leavebutton').addEventListener('click', leaveEdit);
-document.querySelector('#solvebutton').addEventListener('click', solveSudoku);
+document.querySelector('#solvebutton').addEventListener('click', solveButton);
+document.getElementById('close-modal').addEventListener('click', ()=>{
+      document.querySelector('.message-modal').style.display = 'none'; 
+    }); 
 
-let button = document.getElementById('leavebutton'); 
+let button = document.getElementById('leavebutton');
 
-if(button.classList.contains('leave-hidden')){
-  button.setAttribute('disabled', true); 
-  button.classList.remove('hover'); 
-}else{
-
+if (button.classList.contains('leave-hidden')) {
+  button.setAttribute('disabled', true);
+  button.classList.remove('hover');
+} else {
 }
 
-function showMessage(messageContent, messageTrue, messageFalse){
-  return new Promise(resolve=>{
-    document.getElementById('message-text').textContent = messageContent;
-    console.log(document.getElementById('message-text'))
-    let message = document.getElementById('message'); 
-    let buttonTrue = document.getElementById('message-true'); 
-    let buttonFalse = document.getElementById('message-false'); 
+function homeButton(){
+  showMessage('Are you sure?', 'All changes will be lost!', 'Yes', 'No').then(decission=>{
+    if(decission){
+      return; 
+    }else{
 
-
-    buttonTrue.textContent = messageTrue; 
-    buttonFalse.textContent = messageFalse; 
-
-    message.style.display = 'block'
-
-    buttonTrue.onclick = (eve)=>{
-        if(eve.isTrusted===true){
-          decission = true; 
-          message.style.display  = 'none'; 
-          resolve(true); 
-        }
-      }
-    buttonFalse.onclick = (eve)=>{
-      if(eve.isTrusted===true){
-        decission = false; 
-        message.style.display  = 'none'; 
-        resolve(false); 
-      }
     }
   })
 }
 
 
 
+
+function showMessage(firstLine, secondLine, messageTrue, messageFalse) {
+  return new Promise(resolve => {
+
+    let message = document.getElementById('message-modal');
+    let buttonTrue = document.getElementById('message-true');
+    let buttonFalse = document.getElementById('message-false');
+
+    document.getElementById('modal-line-1').textContent = firstLine;
+    document.getElementById('modal-line-2').textContent = secondLine;
+  
+    
+
+    if(!messageTrue && !messageFalse){
+      buttonTrue.style.display = 'none'; 
+      buttonFalse.style.display = 'none'; 
+    }else{
+      buttonTrue.style.display = 'block'; 
+      buttonFalse.style.display = 'block'; 
+      buttonTrue.textContent = messageTrue;
+      buttonFalse.textContent = messageFalse;
+    }
+
+    message.style.display = 'flex';
+
+    buttonTrue.onclick = eve => {
+      if (eve.isTrusted === true) {
+        decission = true;
+        message.style.display = 'none';
+        resolve(true);
+      }
+    };
+    buttonFalse.onclick = eve => {
+      if (eve.isTrusted === true) {
+        decission = false;
+        message.style.display = 'none';
+        resolve(false);
+      }
+    };
+  });
+}
+
+function editButton() {
+  showMessage('Are you sure?','All changes will be lost!', 'Yes', 'No').then(
+    decission => {
+      if (!decission) {
+        return;
+      }
+      editMode();
+    },
+  );
+}
 
 function editMode() {
-
-
-  showMessage('Are you sure? All changes will be lost!', 'Yes', 'No').then(decission=>{
-    if(!decission){
-    return; 
-  }
-  
   let button = document.getElementById('leavebutton');
-    if(button.classList.contains('leave-hidden')){
-      button.classList.remove('leave-hidden'); 
-      button.disabled = false; 
-      console.log(button)
-      button.classList.add('leave-show'); 
-      button.classList.add('hover')
-      let cells = document.getElementsByClassName('cell');
+  if (button.classList.contains('leave-hidden')) {
+    button.classList.remove('leave-hidden');
+    button.disabled = false;
+    console.log(button);
+    button.classList.add('leave-show');
+    button.classList.add('hover');
+    let cells = document.getElementsByClassName('cell');
 
-  for (const cell of cells) {
-    cell.classList.remove('given', 'even', 'input');
-    cell.firstChild.remove();
-    let inputElem = document.createElement('input');
-    inputElem.type ="text"
+    for (const cell of cells) {
+      cell.classList.remove('given', 'even', 'input');
+      cell.firstChild.remove();
+      let inputElem = document.createElement('input');
+      inputElem.type = 'text';
 
-    cell.appendChild(inputElem);
-  }
-    }else{
-      button.disabled = true; 
-      button.classList.add('leave-hidden'); 
-      button.classList.remove('hover'); 
-      return; 
+      cell.appendChild(inputElem);
     }
-  }); 
+  } else {
+    button.disabled = true;
+    button.classList.add('leave-hidden');
+    button.classList.remove('hover');
+    return;
+  }
 }
 
-
-
-function solveSudoku(){
-  showMessage('Are you sure? All changes will be lost!', 'Yes', 'No').then(decission=>{
-    if(!decission){
-    return; 
-  }
-
-  let cells = document.getElementsByClassName('cell'); 
-  let matrix = []; 
-   for (let i = 0; i < 9; i++) {
-    matrix[i] = [];
-    for (let j = 0; j < 9; j++) {
-      let cell = cells[i * 9 + j];
-      let given = false; 
-      for(classList of cell.classList){
-          if(classList === 'given'){
-            given = true; 
-          }
-        }
-      if (cell.firstChild.value != '' && given) {
-        matrix[i][j] = {
-          value: parseInt(cell.firstChild.textContent),
-          classList: cell.classList
-        };
-      } else {
-        matrix[i][j] = {
-          value: 0,
-          classList: cell.classList
-        };
+function solveButton() {
+  showMessage('Are you sure?','All changes will be lost!', 'Yes', 'No').then(
+    decission => {
+      if (!decission) {
+        return;
       }
-    }
-  }
-  let request = new XMLHttpRequest(); 
-  let matrixForFill = undefined; 
-
-  request.open('POST', baseUrl + '/solve', true); 
-  request.setRequestHeader('content-type', 'application/json'); 
-  request.send(JSON.stringify(matrix))
-  request.onreadystatechange = ()=>{
-    if(request.readyState === 4 && request.status === 201){
-
-    let response = JSON.parse(request.response); 
-    matrixForFill = response.result; 
-
-     for(let i=0; i<cells.length; i++){
-
-      cells[i].textContent = matrixForFill[i].toString(); 
-      if(cells[i].classList.contains('input')){
-        cells[i].style.color = '#FFFFFF'
-      }
-     }
-  }
-    }
-  })
+      solveSudoku();
+    },
+  );
 }
 
-
-
-
-function leaveEdit() {
- 
-  validateInputs();
-  let buttons = document.getElementsByTagName('button');
+function solveSudoku() {
   let cells = document.getElementsByClassName('cell');
   let matrix = [];
-  let inputCounter = 0;
-   let request = new XMLHttpRequest(); 
-  for(let i = 0; i<cells.length; i++){
-    if(cells[i].firstChild.value !=''){
-      inputCounter++; 
-    }
-  }
-
-      //minimale anzahl an given-elements die notwendig ist um ein sudoku lösen zu können
- if(inputCounter<16){
-  showMessage('Sudoku not solvable! </br> Continue with this one, or try new one?', 'Continue', 'Try new').then(decission=>{
-    if(!decission){
-    return; 
-  }else{
-    editMode(); 
-  }
-})
- }else{
   for (let i = 0; i < 9; i++) {
     matrix[i] = [];
     for (let j = 0; j < 9; j++) {
       let cell = cells[i * 9 + j];
-      if (cell.firstChild.value != '') {
-
+      let given = false;
+      for (classList of cell.classList) {
+        if (classList === 'given') {
+          given = true;
+        }
+      }
+      if (cell.firstChild.value != '' && given) {
         matrix[i][j] = {
-          value: parseInt(cell.firstChild.value),
-          given: true,
-          even: false,
+          value: parseInt(cell.firstChild.textContent),
+          classList: cell.classList,
         };
-  
       } else {
         matrix[i][j] = {
           value: 0,
-          given: false,
-          even: false,
+          classList: cell.classList,
         };
-       
       }
     }
   }
-      request.open('POST', baseUrl + '/save', true ); 
-      request.setRequestHeader('content-type', 'application/json')
-      request.send(JSON.stringify(matrix)); 
-      request.onreadystatechange = ()=>{
-        if(request.readyState === 4){
-          if(request.status === 201){
-          
+  let request = new XMLHttpRequest();
+  let matrixForFill = undefined;
 
-        console.log("response after save: ", request.response); 
-  
-          for(let i=0;i<cells.length; i++){ 
-            let cell = cells[i]
+  request.open('POST', baseUrl + '/solve', true);
+  request.setRequestHeader('content-type', 'application/json');
+  request.send(JSON.stringify(matrix));
+  request.onreadystatechange = () => {
+    if (request.readyState === 4 && request.status === 201) {
+      let response = JSON.parse(request.response);
+      matrixForFill = response.result;
+
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].textContent = matrixForFill[i].toString();
+        if (cells[i].classList.contains('input')) {
+          cells[i].style.color = '#FFFFFF';
+        }
+      }
+    }
+  };
+}
+
+function leaveEdit() {
+  validateInputs();
+
+  let cells = document.getElementsByClassName('cell');
+  let matrix = [];
+  let inputCounter = 0;
+  let request = new XMLHttpRequest();
+  for (let i = 0; i < cells.length; i++) {
+    if (cells[i].firstChild.value != '') {
+      inputCounter++;
+    }
+  }
+  //minimale anzahl an given-elements die notwendig ist um ein sudoku lösen zu können
+  if (inputCounter < 16) {
+    showMessage(
+      'Sudoku not solvable!','Continue with this one, or try new one?',
+      'Continue',
+      'Try new',
+    ).then(decission => {
+      if (!decission) {
+        return;
+      } else {
+        editMode();
+      }
+    });
+  } else {
+    for (let i = 0; i < 9; i++) {
+      matrix[i] = [];
+      for (let j = 0; j < 9; j++) {
+        let cell = cells[i * 9 + j];
+        if (cell.firstChild.value != '') {
+          matrix[i][j] = {
+            value: parseInt(cell.firstChild.value),
+            given: true,
+            even: false,
+          };
+        } else {
+          matrix[i][j] = {
+            value: 0,
+            given: false,
+            even: false,
+          };
+        }
+      }
+    }
+    request.open('POST', baseUrl + '/save', true);
+    request.setRequestHeader('content-type', 'application/json');
+    request.send(JSON.stringify(matrix));
+    request.onreadystatechange = () => {
+      if (request.readyState === 4) {
+        if (request.status === 201) {
+          console.log('response after save: ', request.response);
+
+          for (let i = 0; i < cells.length; i++) {
+            let cell = cells[i];
             if (cell.firstChild.value != '') {
-              let value = cell.firstChild.value
-                cell.classList.add('given');
-                  cell.firstChild.remove();
-                  cell.textContent = value.toString(); 
-            }else{
+              let value = cell.firstChild.value;
+              cell.classList.add('given');
+              cell.firstChild.remove();
+              cell.textContent = value.toString();
+            } else {
               cell.classList.add('input');
             }
-          for (const button of buttons) {
-            if (button.style.display === 'none') {
-              button.style.display = 'block';
-            } else {
-              button.style.display = 'none';
+            for (const button of buttons) {
+              if (button.style.display === 'none') {
+                button.style.display = 'block';
+              } else {
+                button.style.display = 'none';
+              }
             }
           }
+        } else {
+          alert('sudoku not solvable');
         }
-      }else{
-        alert('sudoku not solvable')
       }
-        }
-    }
+    };
   }
 }
-validateInputs(); 
-function validateInputs(){
+validateInputs();
 
+function showSuccessMessage() {
+  showMessage('Congratulation!', 'Sudoku solved :)');
+}
 
-let cells = document.getElementsByClassName('cell');
+function validateInputs() {
+  let cells = document.getElementsByClassName('cell');
 
-for (let i = 0; i < cells.length; i++) {
-  cells[i].onchange = event => {
-   
-    let response = fillNewMatrix();
-    let position = undefined;
-          let errorElem = document.getElementById('showError');
-    if (event.isTrusted) {
-       if(isNaN(parseInt(cells[i].firstChild.value))){
-         errorElem.style.display = 'none';
-         errorElem.parentElement.classList.remove('error-line')
-        for (const value of values) {
-          value.disabled = false;
-          value.classList.remove('disabledInput');
-          value.parentElement.classList.remove('disabledInput');
+  for (let i = 0; i < cells.length; i++) {
+    cells[i].onchange = event => {
+      let response = fillNewMatrix();
+      let position = undefined;
+      let errorElem = document.getElementById('showError');
+      if (event.isTrusted) {
+        if (isNaN(parseInt(cells[i].firstChild.value))) {
+          errorElem.style.display = 'none';
+          errorElem.parentElement.classList.remove('error-line');
+          for (const value of values) {
+            value.disabled = false;
+            value.classList.remove('disabledInput');
+            value.parentElement.classList.remove('disabledInput');
+          }
+          return;
         }
-      return; 
-    }
-      let duplicateInput = false;
-      let neededCol = extractColFromMatrix(
-        response.matrix,
-        response.changedCell.col,
-      );
-      if (hasDuplicates(response.matrix[response.changedCell.row])) {
-        position = 'row';
-        duplicateInput = true;
-      } else if (hasDuplicates(neededCol)) {
-        duplicateInput = true;
-        position = 'col';
-      } else if (
-        checkNumbersInMiniSquare(
-          response.matrix[response.changedCell.row][response.changedCell.col],
-          response.changedCell.row,
-          response.changedCell.col,
+        let duplicateInput = false;
+        let neededCol = extractColFromMatrix(
           response.matrix,
-        )
-      ) {
-        duplicateInput = true;
-        position = 'square';
-      }
-      console.log()
-      if((parseInt(cells[i].firstChild.value) > 9) || (parseInt(cells[i].firstChild.value) < 1)){
-        duplicateInput = true; 
-        position = 'number out of range'
-      }
-
-
-
-      if (duplicateInput) {
-        errorElem.textContent = `Last input results in ${position} error`;
-        errorElem.parentElement.classList.add('error-line')
-        errorElem.style.display = 'block';
-
-        for (const value of values) {
-          value.disabled = true;
-          value.classList.add('disabledInput');
-          value.parentElement.classList.add('disabledInput');
-          console.log(value.parentElement); 
-        }
-        cells[i].classList.remove('disabledInput');
-        cells[i].firstChild.classList.remove('disabledInput');
-        cells[i].firstChild.disabled = false;
-      } else {
-        errorElem.style.display = 'none';
-        errorElem.parentElement.classList.remove('error-line')
-        for (const value of values) {
-          value.disabled = false;
-          value.classList.remove('disabledInput');
-          value.parentElement.classList.remove('disabledInput');
-        }
-      }
-    }
-  };
-}
-let values = document.getElementsByTagName('input');
-for (let i = 0; i < values.length; i++) {
-  values[i].oninput = value => {
-    if (value.isTrusted) {
-      console.log('on input'); 
-      console.log(values[i])
-      if (values[i].value == '') {
-        values[i].classList.remove('mistake');
-      } else {
-        if (
-          (values[i].parentElement.classList[1] === 'even' &&
-            values[i].value % 2 != 0) ||
-          (values[i].value > 9 || values[i].value<1 )
+          response.changedCell.col,
+        );
+        if (hasDuplicates(response.matrix[response.changedCell.row])) {
+          position = 'row';
+          duplicateInput = true;
+        } else if (hasDuplicates(neededCol)) {
+          duplicateInput = true;
+          position = 'col';
+        } else if (
+          checkNumbersInMiniSquare(
+            response.matrix[response.changedCell.row][response.changedCell.col],
+            response.changedCell.row,
+            response.changedCell.col,
+            response.matrix,
+          )
         ) {
-          values[i].classList.add('mistake');
+          duplicateInput = true;
+          position = 'square';
+        }
+
+        if (
+          parseInt(cells[i].firstChild.value) > 9 ||
+          parseInt(cells[i].firstChild.value) < 1
+        ) {
+          duplicateInput = true;
+          position = 'number out of range';
+        }
+
+        if (duplicateInput) {
+          errorElem.textContent = `Last input results in ${position} error`;
+          errorElem.parentElement.classList.add('error-line');
+          errorElem.style.display = 'block';
+
+          for (const value of values) {
+            value.disabled = true;
+            value.classList.add('disabledInput');
+            value.parentElement.classList.add('disabledInput');
+            console.log(value.parentElement);
+          }
+          cells[i].classList.remove('disabledInput');
+          cells[i].firstChild.classList.remove('disabledInput');
+          cells[i].firstChild.disabled = false;
         } else {
-          values[i].classList.remove('mistake');
+          errorElem.style.display = 'none';
+          errorElem.parentElement.classList.remove('error-line');
+          let lastElem = true;
+          for (let i = 0; i < values.length; i++) {
+            if (values[i].value === '') {
+              lastElem = false;
+              continue;
+            }
+          }
+          if (lastElem) {
+            showSuccessMessage();
+          }
+          for (const value of values) {
+            value.disabled = false;
+            value.classList.remove('disabledInput');
+            value.parentElement.classList.remove('disabledInput');
+          }
         }
       }
-    }
-  };
-}
+    };
+  }
+  let values = document.getElementsByTagName('input');
+  for (let i = 0; i < values.length; i++) {
+    values[i].oninput = value => {
+      if (value.isTrusted) {
+        if (values[i].value == '') {
+          values[i].classList.remove('mistake');
+        } else {
+          if (
+            (values[i].parentElement.classList[1] === 'even' &&
+              values[i].value % 2 != 0) ||
+            values[i].value > 9 ||
+            values[i].value < 1
+          ) {
+            values[i].classList.add('mistake');
+          } else {
+            values[i].classList.remove('mistake');
+          }
+        }
+      }
+    };
+  }
 }
 function hasDuplicates(array) {
   for (let i = 0; i < array.length; i++) {
