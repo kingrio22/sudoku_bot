@@ -1,6 +1,6 @@
 
 
-<h4>sudoku.kingrio22.io</h4>
+<a href="https://sudoku.kingrio22.io"><h3 style="color: rgba(197, 197, 170);" align="center">sudoku.kingrio22.io</h3></a>
 
 
 <p align="center">
