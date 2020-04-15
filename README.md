@@ -1,3 +1,8 @@
+
+
+<h4>sudoku.kingrio22.io</h4>
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
@@ -32,20 +37,25 @@
 
 ```bash
 $ npm install
+
+# create database 
+# create env.develop: 
+PORT= 3000
+DB_HOST=
+DB_PORT=5432
+DB_USERNAME=
+DB_PASSWORD=
+DB_DATABASE= sudoku-db
+
 ```
 
 ## Running the app
 
 ```bash
-# development
-$ npm run start
 
 # watch mode
-$ npm run start:dev
+$ npm run start:develop
 
-# production mode
-$ npm run start:prod
-```
 
 ## Test
 
